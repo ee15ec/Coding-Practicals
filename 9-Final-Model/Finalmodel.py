@@ -16,7 +16,7 @@ import agentframework11 as agentframework
 import requests
 from bs4 import BeautifulSoup
 import csv
-!brew install imagemagick
+
 
 
 #Retieve data from the webpage.
@@ -131,7 +131,7 @@ def update(frame_number):
     plt.scatter(wolf_x, wolf_y, c="red", label = "Wolves")
     #Add a legend.
     plt.legend(loc='upper left')
-      
+
 
 #Define the 'gen_function' for the animation. 
 def gen_function(b = [0]):
@@ -142,8 +142,6 @@ def gen_function(b = [0]):
         a = a + 1
  
 
-
-
   
 #Making the model in a new page.    
 root = tkinter.Tk()    
@@ -152,9 +150,36 @@ canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
 canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 #Define the command 'run' in the model menu to start the animation.
 def run():
-    animation = matplotlib.animation.FuncAnimation(fig, update, frames=gen_function, repeat=False) 
+    animation = matplotlib.animation.FuncAnimation(fig, update, frames=gen_function, repeat=False)  
     canvas.draw()
-
+    
+    #Calculate the total store of all the agents.
+    storelist =[]
+    for agent in agents:
+        storelist.append(agent.getstore())
+    totalstore = sum(storelist)   
+     
+    #Save the agent information for each run to a file. 
+    agentfile = open("agent.txt", 'a', newline = '')
+    writer = csv.writer(agentfile, lineterminator = '\n')
+    for i in range(num_of_agents):
+        agentfile.write('Agent = '+ str(agents[i].__str__())+'\n ')
+    agentfile.write("Total store = " + str(totalstore)+ '\n')    
+    agentfile.close()
+    
+    #Save the wolf information for each run to a file. 
+    wolffile = open("wolf.txt", 'a', newline = '')
+    writer = csv.writer(wolffile, lineterminator = '\n')
+    for i in range(num_of_wolves):
+        wolffile.write('Wolf = '+ str(wolves[i].__str__()) + '\n')
+    wolffile.close()
+    
+    #Save the environment data to a file.
+    envirofile = open("environment.txt", 'w')
+    writer = csv.writer(envirofile, delimiter=' ')
+    envirofile.write(str(environment))
+    envirofile.close()
+    
 #Add a menu.   
 menu_bar = tkinter.Menu(root)
 root.config(menu=menu_bar)
@@ -162,34 +187,3 @@ model_menu = tkinter.Menu(menu_bar)
 menu_bar.add_cascade(label='Model', menu=model_menu)
 model_menu.add_command(label="Run model", command=run)
 
-
-
-#Calculate the total store of all the agents.
-storelist =[]
-for agent in agents:
-    storelist.append(agent.getstore())
-totalstore = sum(storelist)   
-
-#Save the agent information for each run to a file. 
-agentfile = open("agent.txt", 'a')
-writer = csv.writer(agentfile)
-for i in range(num_of_agents):
-    agentfile.write('Agent '+ str(agents[i].__str__())+', ')
-agentfile.write("Total store = " + str(totalstore) +',')    
-agentfile.close()
-
-#Save the wolf information for each run to a file. 
-wolffile = open("wolf.txt", 'a')
-writer = csv.writer(wolffile)
-for i in range(num_of_wolves):
-    wolffile.write('Wolf '+ str(wolves[i].__str__()) + ', ')
-wolffile.write("Total store = " + str(totalstore) +',')    
-wolffile.close()
-
-#Save the environment data to a file.
-envirofile = open("environment.txt", 'w')
-writer = csv.writer(envirofile, delimiter=' ')
-envirofile.write(str(environment))
-envirofile.close()
-
-tkinter.mainloop()
