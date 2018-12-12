@@ -152,7 +152,7 @@ canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 def run():
     animation = matplotlib.animation.FuncAnimation(fig, update, frames=gen_function, repeat=False)  
     canvas.draw()
-    
+    #Save the files within the run function after the animation has completed.
     #Calculate the total store of all the agents.
     storelist =[]
     for agent in agents:
