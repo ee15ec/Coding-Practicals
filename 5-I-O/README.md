@@ -1,0 +1,2 @@
+# Input-Output
+The goal of this exercise was to be able to import some data to use as our agents' environment, and get them to interact with it. The model takes in 'in.txt' and uses it's data to create the environment. The agents are moved within this environment and have the ability to eat the environment to add to their 'store'. The changes to the environment and the agent stores are saved and produce the outputs  'environment.txt' and 'store.txt'.
