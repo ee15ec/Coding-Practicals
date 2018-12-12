@@ -1,1 +1,1 @@
-This is code to produce a start point for the agent based model.
+This is code to produce a basic agent based model.
